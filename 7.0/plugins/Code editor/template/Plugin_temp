@@ -4,6 +4,7 @@ import ida_idaapi, ida_kernwin
 import idc
 from idc import *
 from idaapi import *
+import idautils
 import sys
 sys.path.insert(0 , idaapi.idadir("plugins\\My_plugin\\icons")) #change path to the icon
 import ico

@@ -701,9 +701,11 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         API_FILE = dn+'\\Python.api'
         API_FILE2 = dn+'\\idc.api'
         API_FILE3 = dn+'\\idaapi.api'
+        API_FILE4 = dn+'\\idautils.api'
         api.load(API_FILE)
         api.load(API_FILE2)
         api.load(API_FILE3)
+        api.load(API_FILE4)
 
         api.prepare()
         self.codebox.setAutoCompletionThreshold(0)

@@ -4,6 +4,7 @@ import ida_idaapi, ida_kernwin
 import idc
 from idc import *
 from idaapi import *
+import idautils *
 import sys
 sys.path.insert(0 , idaapi.idadir("plugins\\Code editor\\icons"))
 import ico
