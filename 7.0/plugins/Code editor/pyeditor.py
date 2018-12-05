@@ -689,7 +689,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.skrift = QFont()
         self.skrift.setFamily('Consolas')
         self.skrift.setFixedPitch(True)
-        self.skrift.setPointSize(12)
+        self.skrift.setPointSize(14)
         self.codebox.setFont(self.skrift)
 
         #python style
