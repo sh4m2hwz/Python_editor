@@ -33,6 +33,7 @@ print " ###################################################\n" \
 
 import os
 import sys
+import pickle
 
 try:
     dn = idaapi.idadir("plugins\\Code editor")
@@ -499,6 +500,12 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.codebox.setObjectName(_fromUtf8("codebox"))
         self.verticalLayout.addWidget(self.codebox)
         MainWindow.setCentralWidget(self.vindu)
+        
+        # cutsom config
+        self.config_dir = os.path.expanduser("~") + "\\.python_editor"
+        self.config_filename = self.config_dir + "\\config.dat"
+        self.config = self.read_config() if self.read_config() else dict()
+                
         #toolbar
         self.toolBar = QtWidgets.QToolBar(MainWindow)
         self.toolBar.setAutoFillBackground(False)
@@ -633,7 +640,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.scriptfile = self.codebox.text()
         self.filename = ""
 
-
         #actions
         self.toolBar.addAction(self.toolBar.newAction)
         self.toolBar.addSeparator()
@@ -679,10 +685,12 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.toolBar.Action22)
 
-        self.skrift = QFont()
-        self.skrift.setFamily('Consolas')
-        self.skrift.setFixedPitch(True)
-        self.skrift.setPointSize(14)
+        self.default_font = QFont()
+        self.default_font.setFamily('Consolas')
+        self.default_font.setFixedPitch(True)
+        self.default_font.setPointSize(14)
+        
+        self.skrift = self.make_font(self.get_config('font')) if self.get_config('font') else self.default_font
         self.codebox.setFont(self.skrift)
 
         #python style
@@ -726,7 +734,43 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.retranslateUi(MainWindow)
 
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
+    
+    def read_config(self):
+        if os.path.isfile(self.config_filename):
+            with open(self.config_filename, "rb") as f:
+                return pickle.load(f) 
+        else:
+            return None
+    
+    def write_config(self):
+        def mkdir_p(path):
+            import errno
+            try:
+                os.makedirs(path)
+            except OSError as exc:  # Python >2.5
+                if exc.errno == errno.EEXIST and os.path.isdir(path):
+                    pass
+                else:
+                    raise
+        mkdir_p(self.config_dir)
+        with open(self.config_filename, "wb") as f:
+            pickle.dump(self.config, f)
+    
+    def make_font(self, attr):
+        """ attr = (family, fontsize)"""
+        family, font_size = attr
+        ret = QFont()
+        ret.setFamily(family)
+        ret.setFixedPitch(True)
+        ret.setPointSize(font_size)
+        return ret
+    
+    def get_config(self, key):
+        if key in self.config and self.config[key] != None:
+            return self.config[key]
+        else:
+            return None
+    
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "Ida Pro Python Script Editor", None))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar", None))
@@ -735,7 +779,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         Wizard.show()
 
     def sendgrapped(self):
-        print "hello"
+        print("hello")
         helloclass = Ui_Wizard()
         self.bsout = self.codebox.text()
         helloclass.script_textEdit.setText(self.bsout)
@@ -779,7 +823,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         file = QtCore.QFile(self.filename)
         if file.open(QtCore.QIODevice.WriteOnly):
             QtCore.QTextStream(file) << textout
-            print "Save to {}".format(self.filename)
+            print("Save to {}".format(self.filename))
         else:
             QtWidgets.QMessageBox.information(self.vindu,
                     'Unable to open file', file.errorString())
@@ -847,7 +891,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         import webbrowser
         webbrowser.open('https://www.hex-rays.com/')
 
-
     def sdkopen(self):
         import webbrowser
         webbrowser.open('https://www.hex-rays.com/products/ida/support/idapython_docs/')
@@ -862,10 +905,15 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
     def font_choice(self):
         self.lbl = self.lexer
-        font, ok = QtWidgets.QFontDialog.getFont()
+        font, ok = QtWidgets.QFontDialog.getFont(self.skrift)
         if ok:
-            self.lbl.setFont(font)
-
+            self.skrift = font
+            self.codebox.setFont(self.skrift)
+            self.codebox.setMarginsFont(self.skrift)
+            self.lbl.setFont(self.skrift)
+            self.config['font'] = (font.family(), font.pointSize())
+            self.write_config()
+            print("Font update success")
 
     def on_margin_clicked(self, nmargin, nline, modifiers):
         # Toggle marker for the line the margin was clicked on
