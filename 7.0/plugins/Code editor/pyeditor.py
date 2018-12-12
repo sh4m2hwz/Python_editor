@@ -720,6 +720,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         fontmetrics = QFontMetrics(self.skrift)
         self.codebox.setMarginsFont(self.skrift)
         self.codebox.setMarginWidth(0, fontmetrics.width("00000") + 6)
+        self.codebox.setIndentationsUseTabs(False)
         self.codebox.setTabWidth(4)
 
         #brace
