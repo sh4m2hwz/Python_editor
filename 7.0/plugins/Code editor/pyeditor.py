@@ -34,8 +34,6 @@ print " ###################################################\n" \
 import os
 import sys
 
-
-
 try:
     dn = idaapi.idadir("plugins\\Code editor")
 except NameError:
@@ -50,7 +48,6 @@ sys.path.insert(0, dn)
 sys.path.insert(0, os.getcwd()+r'\\icons')
 
 sys.path.insert(0, os.getcwd()+r'\\template')
-
 
 import PyQt5
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -346,11 +343,6 @@ class Ui_Wizard(QtWidgets.QWizard):
             self.TemptextEdit.markerAdd(98, 2)
             self.TemptextEdit.markerAdd(99, 2)
             self.TemptextEdit.markerAdd(102, 2)
-
-
-
-
-
         except:
             self.TemptextEdit.setText('Plugin_temp file not found')
             pass
@@ -476,17 +468,10 @@ class Ui_Wizard(QtWidgets.QWizard):
                     'Unable to open file', file.errorString())
         os.chdir(str(self.path))
 
-
-
 from PyQt5 import Qsci
 
 import sys
 #app2 = QtWidgets.QApplication(sys.argv)
-
-
-
-
-
 
 class Ui_MainWindow(QtWidgets.QMainWindow):
     ARROW_MARKER_NUM = 8
@@ -706,7 +691,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.lexer.setEolFill(True)
         #api test not working
         api = Qsci.QsciAPIs(self.lexer)
-        API_FILE = dn+'\\Python.api'
+        API_FILE = dn+'\\python.api'
         API_FILE2 = dn+'\\idc.api'
         API_FILE3 = dn+'\\idaapi.api'
         API_FILE4 = dn+'\\idautils.api'
@@ -716,9 +701,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         api.load(API_FILE4)
 
         api.prepare()
-        self.codebox.setAutoCompletionThreshold(0)
-        self.codebox.setAutoCompletionThreshold(6)
-        self.codebox.setAutoCompletionThreshold(8)
+        self.codebox.setAutoCompletionThreshold(1)
         self.codebox.setAutoCompletionSource(Qsci.QsciScintilla.AcsAPIs)
         self.lexer.setDefaultFont(self.skrift)
         self.codebox.setLexer(self.lexer)
@@ -748,10 +731,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "Ida Pro Python Script Editor", None))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar", None))
 
-
-
     def plugin_make(self):
-
         Wizard.show()
 
     def sendgrapped(self):
@@ -759,14 +739,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         helloclass = Ui_Wizard()
         self.bsout = self.codebox.text()
         helloclass.script_textEdit.setText(self.bsout)
-
-
-
-
-    def hubba(self):
-        print "sdfgsdgsgdghsghdg"
-        #print str(self.codebox.text())
-
 
     def udder(self):
         self.codebox.zoomIn()
@@ -779,7 +751,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
     def open(self):
         self.path = QtCore.QFileInfo(self.filename).path()
-
         # Get filename and show only .writer files
         (self.filename, _) = \
             QtWidgets.QFileDialog.getOpenFileName(self.vindu,
@@ -827,7 +798,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             os.chdir(str(self.path))
             os.path.join(os.path.expanduser('~'), os.path.expandvars(str(self.path)))
             sys.path.insert(0, str(self.path))
-            exec (script, g)
+            exec(script, g)
         except SyntaxError as err:
             error_class = err.__class__.__name__
             detail = err.args[0]
@@ -904,11 +875,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             self.codebox.markerAdd(nline, self.ARROW_MARKER_NUM)
 
 
-
-
-
-
-
 class MyWindow(QtWidgets.QMainWindow):
     '''
     we have to ask user for quiting so we can change back to root dir
@@ -941,10 +907,7 @@ class MyWindow(QtWidgets.QMainWindow):
             event.ignore()
             os.chdir(dn)
 
-
-
 from PyQt5 import Qsci
-
 
 if __name__ == '__main__':
     import sys
