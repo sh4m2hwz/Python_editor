@@ -804,21 +804,31 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         os.chdir(str(self.path))
 
     def runto(self):
+        import traceback
+        class InterpreterError(Exception): pass
+        
         self.path = QtCore.QFileInfo(self.filename).path()
         g = globals()
         os.chdir(str(self.path))
         script = str(self.codebox.text())
+        
         try:
             os.chdir(str(self.path))
             os.path.join(os.path.expanduser('~'), os.path.expandvars(str(self.path)))
             sys.path.insert(0, str(self.path))
             exec (script, g)
-        except Exception as e:
-            print e.__doc__
-            print e.message
+        except SyntaxError as err:
+            error_class = err.__class__.__name__
+            detail = err.args[0]
+            line_number = err.lineno
+        except Exception as err:
+            error_class = err.__class__.__name__
+            detail = err.args[0]
+            cl, exc, tb = sys.exc_info()
+            line_number = traceback.extract_tb(tb)[-1][1]
         else:
-            pass
-            #exec (script, g)
+            return
+        raise InterpreterError("%s at line %d of source string: %s" % (error_class, line_number, detail))
 
     def runtoprob(self):
         try:
