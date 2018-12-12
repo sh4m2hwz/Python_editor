@@ -8,6 +8,7 @@ print " ###################################################\n" \
     " #         NewFile:            Ctrl+N              #\n" \
     " #         OpenFile:           Ctrl+O              #\n" \
     " #         SaveFile:           Ctrl+S              #\n" \
+    " #         Save As New File:   Ctrl+Shift+ S       #\n" \
     " #         RunScript:          Ctrl+E              #\n" \
     " #         Undo:               Ctrl+Z              #\n" \
     " #         Redo:               Ctrl+Y              #\n" \
@@ -548,7 +549,12 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.toolBar.Action3 = QtWidgets.QAction(QtGui.QIcon(":/ico/save.png"),"Save",self.toolBar)
         self.toolBar.Action3.setStatusTip("Save Your File.")
         self.toolBar.Action3.setShortcut("Ctrl+S")
-        self.toolBar.Action3.triggered.connect(self.savefile)
+        self.toolBar.Action3.triggered.connect(self.save_file)
+        # action 3_1 save as file
+        self.toolBar.Action3_1 = QtWidgets.QAction(QtGui.QIcon(dn+"\\icons\\save_as.png"),"Save As",self.toolBar)
+        self.toolBar.Action3_1.setStatusTip("Save As New File.")
+        self.toolBar.Action3_1.setShortcut("Ctrl+Shift+S")
+        self.toolBar.Action3_1.triggered.connect(self.save_as_file)
         #action 4 run file
         self.toolBar.Action4 = QtWidgets.QAction(QtGui.QIcon(":/ico/run32.png"),"Run",self.toolBar)
         self.toolBar.Action4.setStatusTip("Run")
@@ -649,6 +655,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.toolBar.addAction(self.toolBar.secondAction)
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.toolBar.Action3)
+        self.toolBar.addSeparator()
+        self.toolBar.addAction(self.toolBar.Action3_1)
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.toolBar.Action4)
         self.toolBar.addSeparator()
@@ -783,21 +791,24 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
                 self.codebox.setText(self.file.read())
         os.chdir(str(self.path))
 
-
-    def savefile(self):
+    def save_as_file(self):
         self.path = QtCore.QFileInfo(self.filename).path()
         (self.filename, _) = \
             QtWidgets.QFileDialog.getSaveFileName(self.vindu, 'Save as'
                 , self.path, 'Python Files (*.py *.pyc *.pyw)')
         if self.filename:
-            self.savetext(self.filename)
+            self.save_file()
         os.chdir(str(self.path))
 
-    def savetext(self, fileName):
+    def save_file(self):
+        if not self.filename:
+            self.save_as_file()
+        
         textout = self.codebox.text()
-        file = QtCore.QFile(fileName)
+        file = QtCore.QFile(self.filename)
         if file.open(QtCore.QIODevice.WriteOnly):
             QtCore.QTextStream(file) << textout
+            print "Save to {}".format(self.filename)
         else:
             QtWidgets.QMessageBox.information(self.vindu,
                     'Unable to open file', file.errorString())
