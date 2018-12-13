@@ -1137,7 +1137,7 @@ class MyWindow(QtWidgets.QMainWindow):
     '''
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Exit',
-            "Are you sure to quit ? ( Be sure you save the work before you exit )", QMessageBox.Yes |
+            "Are you sure to quit ?\n( Be sure to save your work before you exit )", QMessageBox.Yes |
             QMessageBox.No, QMessageBox.No)
 
         if reply == QMessageBox.Yes:
