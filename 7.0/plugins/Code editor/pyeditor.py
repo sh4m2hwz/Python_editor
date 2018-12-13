@@ -295,9 +295,9 @@ class Ui_Wizard(QtWidgets.QWizard):
         #auto line tab =4 temp
         self.TemptextEdit.setAutoIndent(True)
         #auto line tab =4 script
-        self.TemptextEdit.setAutoIndent(True)
+        self.script_textEdit.setAutoIndent(True)
 
-        #scroolbar
+        #scrollbar
         self.script_textEdit.SendScintilla(QsciScintilla.SCI_SETHSCROLLBAR, 1)
         try:
             bs = open(TemplateFile).read()
@@ -392,12 +392,7 @@ class Ui_Wizard(QtWidgets.QWizard):
         self.scriptGrabpushButton.clicked.connect(self.grapper)
 
     def grapper(self):
-        #hellotext = Ui_MainWindow
-      #  hello2= hellotext.sendgrapped
-#   print str(hello2)
-
         messageformForm.show()
-
 
     def opentemp(self):
         print "hello"
@@ -470,25 +465,26 @@ class Ui_Wizard(QtWidgets.QWizard):
         os.chdir(str(self.path))
 
 from PyQt5 import Qsci
-
+import qdarkstyle
 import sys
-#app2 = QtWidgets.QApplication(sys.argv)
 
 class Ui_MainWindow(QtWidgets.QMainWindow):
     ARROW_MARKER_NUM = 8
 
     def __init__(self, parent=None):
+        # Main windows
         super(Ui_MainWindow, self).__init__(parent=None)
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(640, 480)
         self.vindu = QtWidgets.QWidget(MainWindow)
-        self.vindu.setStyleSheet(_fromUtf8('notusedasyet'))
-        #MainWindow.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+        self.vindu.setStyleSheet("")
         self.vindu.setObjectName(_fromUtf8("vindu"))
         self.verticalLayout = PyQt5.QtWidgets.QVBoxLayout(self.vindu)
+        
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/ico/python.png")), QtGui.QIcon.Normal, QtGui.QIcon.On)
         MainWindow.setWindowIcon(icon)
+        
         self.verticalLayout.setContentsMargins(0,0,0,0)
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName(_fromUtf8('verticalLayout'))
@@ -506,7 +502,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.config_filename = self.config_dir + "\\config.dat"
         self.config = self.read_config() if self.read_config() else dict()
                 
-        #toolbar
+        # toolbar
         self.toolBar = QtWidgets.QToolBar(MainWindow)
         self.toolBar.setAutoFillBackground(False)
         self.toolBar.setIconSize(QtCore.QSize(32, 32))
@@ -514,129 +510,193 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.toolBar.setObjectName(_fromUtf8("toolBar2"))
         MainWindow.addToolBar(QtCore.Qt.LeftToolBarArea, self.toolBar)
         self.toolBar.addSeparator()
-        #toolbar2 debugger
-        #self.toolBar2 = QtGui.QToolBar(MainWindow)
-        #self.toolBar2.setAutoFillBackground(False)
-        #self.toolBar2.setIconSize(QtCore.QSize(32, 32))
-        #self.toolBar2.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
-        #self.toolBar2.setObjectName(_fromUtf8("toolBar"))
-       # MainWindow.addToolBar(QtCore.Qt.RightToolBarArea, self.toolBar2)
-#        self.toolBar2.addSeparator()
+
         #getting ready for debugger
         self.codebox.setMarginSensitivity(1, True)
         self.codebox.marginClicked.connect(self.on_margin_clicked)
         self.codebox.markerDefine(QsciScintilla.FullRectangle, self.ARROW_MARKER_NUM)
         self.codebox.setMarkerBackgroundColor(QColor("#ee1111"), self.ARROW_MARKER_NUM)
+        
+        self.action_icon = dict()
+        
         #first action Newfile
-        self.toolBar.newAction = QtWidgets.QAction(QtGui.QIcon(":/ico/new.png"),"New",self.toolBar)
+        cur_icon = QtGui.QIcon(":/ico/new.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.newAction = QtWidgets.QAction(cur_icon,"New",self.toolBar)
         self.toolBar.newAction.setStatusTip("Clear TextBox or make new document.")
         self.toolBar.newAction.setShortcut("Ctrl+N")
         self.toolBar.newAction.triggered.connect(self.newfile)
+        self.action_icon[self.toolBar.newAction] = (cur_icon, inv_icon)
         #second Action OpenFile
-        self.toolBar.secondAction = QtWidgets.QAction(QtGui.QIcon(":/ico/open.png"),"Open",self.toolBar)
+        cur_icon = QtGui.QIcon(":/ico/open.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.secondAction = QtWidgets.QAction(cur_icon,"Open",self.toolBar)
         self.toolBar.secondAction.setStatusTip("Create a new document from scratch.")
         self.toolBar.secondAction.setShortcut("Ctrl+O")
         self.toolBar.secondAction.triggered.connect(self.open)
+        self.action_icon[self.toolBar.secondAction] = (cur_icon, inv_icon)
         # action 3 save file
-        self.toolBar.Action3 = QtWidgets.QAction(QtGui.QIcon(":/ico/save.png"),"Save",self.toolBar)
+        cur_icon = QtGui.QIcon(":/ico/save.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.Action3 = QtWidgets.QAction(cur_icon,"Save",self.toolBar)
         self.toolBar.Action3.setStatusTip("Save Your File.")
         self.toolBar.Action3.setShortcut("Ctrl+S")
         self.toolBar.Action3.triggered.connect(self.save_file)
+        self.action_icon[self.toolBar.Action3] = (cur_icon, inv_icon)
         # action 3_1 save as file
-        self.toolBar.Action3_1 = QtWidgets.QAction(QtGui.QIcon(dn+"\\icons\\save_as.png"),"Save As",self.toolBar)
+        cur_icon = QtGui.QIcon(dn+"\\icons\\save_as.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.Action3_1 = QtWidgets.QAction(cur_icon,"Save As",self.toolBar)
         self.toolBar.Action3_1.setStatusTip("Save As New File.")
         self.toolBar.Action3_1.setShortcut("Ctrl+Shift+S")
         self.toolBar.Action3_1.triggered.connect(self.save_as_file)
+        self.action_icon[self.toolBar.Action3_1] = (cur_icon, inv_icon)
         #action 4 run file
-        self.toolBar.Action4 = QtWidgets.QAction(QtGui.QIcon(":/ico/run32.png"),"Run",self.toolBar)
+        cur_icon = QtGui.QIcon(":/ico/run32.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.Action4 = QtWidgets.QAction(cur_icon,"Run",self.toolBar)
         self.toolBar.Action4.setStatusTip("Run")
         self.toolBar.Action4.setShortcut("Ctrl+E")
         self.toolBar.Action4.triggered.connect(self.runto)
-        #action 21 debug
-        #self.toolBar2.Action21 = QtGui.QAction(QtGui.QIcon(":/ico/run32.png"),"Debug",self.toolBar)
-        #self.toolBar2.Action21.setStatusTip("Debug File.")
-        #self.toolBar2.Action21.setShortcut("Ctrl+7")
-        #self.toolBar2.Action21.triggered.connect(self.debugto)
+        self.action_icon[self.toolBar.Action4] = (cur_icon, inv_icon)
         #action 6 undo
-        self.toolBar.Action6 =  QtWidgets.QAction(QtGui.QIcon(":/ico/undo.png"),"Redo",self.toolBar)
+        cur_icon = QtGui.QIcon(":/ico/undo.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.Action6 =  QtWidgets.QAction(cur_icon,"Redo",self.toolBar)
         self.toolBar.Action6.setStatusTip("Undo.")
         self.toolBar.Action6.setShortcut("Ctrl+Z")
         self.toolBar.Action6.triggered.connect(self.codebox.undo)
+        self.action_icon[self.toolBar.Action6] = (cur_icon, inv_icon)
         #action 7 redo
-        self.toolBar.Action7 = QtWidgets.QAction(QtGui.QIcon(":/ico/redo.png"),"Redo",self.toolBar)
+        cur_icon = QtGui.QIcon(":/ico/redo.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.Action7 = QtWidgets.QAction(cur_icon,"Redo",self.toolBar)
         self.toolBar.Action7.setStatusTip("Redo.")
         self.toolBar.Action7.setShortcut("Ctrl+Y")
         self.toolBar.Action7.triggered.connect(self.codebox.redo)
+        self.action_icon[self.toolBar.Action7] = (cur_icon, inv_icon)
         #action8 rerset Folding
-        self.toolBar.Action8 = QtWidgets.QAction(QtGui.QIcon(":/ico/align-justify.png"),"Reset Folding",self.toolBar)
+        cur_icon = QtGui.QIcon(":/ico/align-justify.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.Action8 = QtWidgets.QAction(cur_icon,"Reset Folding",self.toolBar)
         self.toolBar.Action8.setStatusTip("Reset Folding.")
         self.toolBar.Action8.setShortcut("Ctrl+R")
         self.toolBar.Action8.triggered.connect(self.nofoldingl)
+        self.action_icon[self.toolBar.Action8] = (cur_icon, inv_icon)
         #actions9 CircledTreeFoldStyle
-        self.toolBar.Action9 = QtWidgets.QAction(QtGui.QIcon(":/ico/bullet.png"),"Circled Tree Folding",self.toolBar)
+        cur_icon = QtGui.QIcon(":/ico/bullet.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.Action9 = QtWidgets.QAction(cur_icon,"Circled Tree Folding",self.toolBar)
         self.toolBar.Action9.setStatusTip("Circled Tree Folding.")
         self.toolBar.Action9.setShortcut("Ctrl+C")
         self.toolBar.Action9.triggered.connect(self.Circledfold)
+        self.action_icon[self.toolBar.Action9] = (cur_icon, inv_icon)
         #actions10 plainFoldStyle
-        self.toolBar.Action10 = QtWidgets.QAction(QtGui.QIcon(":/ico/number.png"),"Plain Folding",self.toolBar)
+        cur_icon = QtGui.QIcon(":/ico/number.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.Action10 = QtWidgets.QAction(cur_icon,"Plain Folding",self.toolBar)
         self.toolBar.Action10.setStatusTip("Plain Folding")
         self.toolBar.Action10.setShortcut("Ctrl+P")
         self.toolBar.Action10.triggered.connect(self.plainfold)
-        # fonts
-        self.toolBar.Action21 = QtWidgets.QAction(QtGui.QIcon(":/ico4/font.png"), "Fonts", self.toolBar)
-        self.toolBar.Action21.setStatusTip("Fonts")
-        self.toolBar.Action21.setShortcut("Ctrl+F")
-        self.toolBar.Action21.triggered.connect(self.font_choice)
+        self.action_icon[self.toolBar.Action10] = (cur_icon, inv_icon)
         #web baby
-        self.toolBar.Action11 = QtWidgets.QAction(QtGui.QIcon(":/ico/web.png"),"Hex-rays Homepage",self.toolBar)
+        cur_icon = QtGui.QIcon(":/ico/web.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.Action11 = QtWidgets.QAction(cur_icon,"Hex-rays Homepage",self.toolBar)
         self.toolBar.Action11.setStatusTip("Home of Hex-rays")
         self.toolBar.Action11.setShortcut("Ctrl+W")
         self.toolBar.Action11.triggered.connect(self.webopen)
+        self.action_icon[self.toolBar.Action11] = (cur_icon, inv_icon)
         #irc
-        self.toolBar.Action12 = QtWidgets.QAction(QtGui.QIcon(":/ico3/settings.png"),"Open Ida Pro Python SDK",self.toolBar)
+        cur_icon = QtGui.QIcon(":/ico3/settings.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.Action12 = QtWidgets.QAction(cur_icon,"Open Ida Pro Python SDK",self.toolBar)
         self.toolBar.Action12.setStatusTip("Ida Pro Python SDK")
         self.toolBar.Action12.setShortcut("Ctrl+I")
         self.toolBar.Action12.triggered.connect(self.sdkopen)
+        self.action_icon[self.toolBar.Action12] = (cur_icon, inv_icon)
         #github Python
-        self.toolBar.Action14 = QtWidgets.QAction(QtGui.QIcon(":/ico/github.png"),"Open git python",self.toolBar)
+        cur_icon = QtGui.QIcon(":/ico/github.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.Action14 = QtWidgets.QAction(cur_icon,"Open git python",self.toolBar)
         self.toolBar.Action14.setStatusTip("Open git python")
         self.toolBar.Action14.setShortcut("Ctrl+G")
         self.toolBar.Action14.triggered.connect(self.gitopen)
+        self.action_icon[self.toolBar.Action14] = (cur_icon, inv_icon)
         #auther me :)
-        self.toolBar.Action15 = QtWidgets.QAction(QtGui.QIcon(":/ico/auth.png"),"Author",self.toolBar)
+        cur_icon = QtGui.QIcon(":/ico/auth.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.Action15 = QtWidgets.QAction(cur_icon,"Author",self.toolBar)
         self.toolBar.Action15.setStatusTip("Author")
         self.toolBar.Action15.setShortcut("Ctrl+B")
         self.toolBar.Action15.triggered.connect(self.Author)
+        self.action_icon[self.toolBar.Action15] = (cur_icon, inv_icon)
         #toggle off code regonision
-        self.toolBar.Action16 = QtWidgets.QAction(QtGui.QIcon(":/ico2/pythonminus.png"),"Disable Code recognition",self.toolBar)
+        cur_icon = QtGui.QIcon(":/ico2/pythonminus.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.Action16 = QtWidgets.QAction(cur_icon,"Disable Code recognition",self.toolBar)
         self.toolBar.Action16.setStatusTip("Disable Code recognition")
         self.toolBar.Action16.setShortcut("Alt+D")
         self.toolBar.Action16.triggered.connect(self.Diablecode)
+        self.action_icon[self.toolBar.Action16] = (cur_icon, inv_icon)
         #toogle on
-        self.toolBar.Action17 = QtWidgets.QAction(QtGui.QIcon(":/ico2/pypluss.png"),"Enable Code recognition",self.toolBar)
+        cur_icon = QtGui.QIcon(":/ico2/pypluss.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.Action17 = QtWidgets.QAction(cur_icon,"Enable Code recognition",self.toolBar)
         self.toolBar.Action17.setStatusTip("Enable Code recognition")
         self.toolBar.Action17.setShortcut("Alt+E")
         self.toolBar.Action17.triggered.connect(self.Reiablecode)
+        self.action_icon[self.toolBar.Action17] = (cur_icon, inv_icon)
         # zoom in
-        self.toolBar.Action18 = QtWidgets.QAction(QtGui.QIcon(":/ico3/in.png"),"Zoom In",self.toolBar)
+        cur_icon = QtGui.QIcon(":/ico3/in.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.Action18 = QtWidgets.QAction(cur_icon,"Zoom In",self.toolBar)
         self.toolBar.Action18.setStatusTip("Zoom In")
         self.toolBar.Action18.setShortcut("CTRL+SHIFT++")
         self.toolBar.Action18.triggered.connect(self.udder)
+        self.action_icon[self.toolBar.Action18] = (cur_icon, inv_icon)
         #zoom out
-        self.toolBar.Action19 = QtWidgets.QAction(QtGui.QIcon(":/ico3/out.png"),"Zoom Out",self.toolBar)
+        cur_icon = QtGui.QIcon(":/ico3/out.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.Action19 = QtWidgets.QAction(cur_icon,"Zoom Out",self.toolBar)
         self.toolBar.Action19.setStatusTip("Zoom Out")
         self.toolBar.Action19.setShortcut("CTRL+SHIFT+-")
         self.toolBar.Action19.triggered.connect(self.odder)
-
-        self.toolBar.Action20 = QtWidgets.QAction(QtGui.QIcon(":/ico3/10.png"),"Profile Code",self.toolBar)
+        self.action_icon[self.toolBar.Action19] = (cur_icon, inv_icon)
+        # profile
+        cur_icon = QtGui.QIcon(":/ico3/10.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.Action20 = QtWidgets.QAction(cur_icon,"Profile Code",self.toolBar)
         self.toolBar.Action20.setStatusTip("Profile Code")
         self.toolBar.Action20.setShortcut("CTRL+SHIFT+E")
         self.toolBar.Action20.triggered.connect(self.runtoprob)
-        #PLUGINS HERE WE GO
-        self.toolBar.Action22 = QtWidgets.QAction(QtGui.QIcon(":/ico5/plugin.png"),"Plugin",self.toolBar)
+        self.action_icon[self.toolBar.Action20] = (cur_icon, inv_icon)
+        # fonts
+        cur_icon = QtGui.QIcon(":/ico4/font.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.Action21 = QtWidgets.QAction(cur_icon, "Fonts", self.toolBar)
+        self.toolBar.Action21.setStatusTip("Fonts")
+        self.toolBar.Action21.setShortcut("Ctrl+F")
+        self.toolBar.Action21.triggered.connect(self.font_choice)
+        self.action_icon[self.toolBar.Action21] = (cur_icon, inv_icon)
+        # PLUGINS HERE WE GO
+        cur_icon = QtGui.QIcon(":/ico5/plugin.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.Action22 = QtWidgets.QAction(cur_icon,"Plugin",self.toolBar)
         self.toolBar.Action22.setStatusTip("Make plugin")
         self.toolBar.Action22.setShortcut("")
         self.toolBar.Action22.triggered.connect(self.plugin_make)
+        self.action_icon[self.toolBar.Action22] = (cur_icon, inv_icon)
+        # invert theme
+        cur_icon = QtGui.QIcon(dn+"\\icons\\invert.png")
+        inv_icon = self.invert_icon(cur_icon)
+        self.toolBar.Action23 = QtWidgets.QAction(cur_icon,"Switch theme",self.toolBar)
+        self.toolBar.Action23.setStatusTip("Switch Light/Dark theme")
+        self.toolBar.Action23.setShortcut("")
+        self.toolBar.Action23.triggered.connect(self.switch_theme)
+        self.action_icon[self.toolBar.Action23] = (cur_icon, inv_icon)
+        
+        # script settings
         self.scriptfile = self.codebox.text()
         self.filename = ""
 
@@ -684,6 +744,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.toolBar.addAction(self.toolBar.Action21)
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.toolBar.Action22)
+        self.toolBar.addSeparator()
+        self.toolBar.addAction(self.toolBar.Action23)
 
         self.default_font = QFont()
         self.default_font.setFamily('Consolas')
@@ -692,11 +754,10 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         
         self.skrift = self.make_font(self.get_config('font')) if self.get_config('font') else self.default_font
         self.codebox.setFont(self.skrift)
-
+        
         #python style
         self.lexer = QsciLexerPython(self.codebox)
         self.lexer.setFont(self.skrift)
-        self.lexer.setEolFill(True)
         #api test not working
         api = Qsci.QsciAPIs(self.lexer)
         API_FILE = dn+'\\python.api'
@@ -728,12 +789,23 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         #auto line tab =4
         self.codebox.setAutoIndent(True)
 
-        #scroolbar
+        #scrollbar
         self.codebox.SendScintilla(QsciScintilla.SCI_SETHSCROLLBAR, 1)
+        
+        # set theme
+        self.dark_theme = True if self.get_config('dark_theme') else False
+        self.set_theme(self.dark_theme)
 
         self.retranslateUi(MainWindow)
 
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+    
+    def invert_icon(self, cur_icon):
+        pixmap = cur_icon.pixmap(cur_icon.actualSize(QtCore.QSize(32, 32)));
+        img = pixmap.toImage()
+        img.invertPixels()
+        pixmap = QtGui.QPixmap.fromImage(img)
+        return QtGui.QIcon(pixmap)
     
     def read_config(self):
         if os.path.isfile(self.config_filename):
@@ -771,6 +843,92 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         else:
             return None
     
+    def switch_theme(self):
+        self.dark_theme = False if self.dark_theme else True # switch theme
+        self.set_theme(self.dark_theme)
+        self.config['dark_theme'] = self.dark_theme
+        self.write_config()
+        print("Theme update success")
+        
+    def set_theme(self, dark=False):
+        """ swith dark / light theme """
+        # self.vindu
+        # self.toolBar
+        # codebox lexer
+        # codebox line number margin
+        cur_style_sheet = qdarkstyle.load_stylesheet_pyqt5() if dark else ""
+        # switch theme
+        self.vindu.setStyleSheet(cur_style_sheet)
+        self.toolBar.setStyleSheet(cur_style_sheet)
+        # switch icon
+        icon_id = 1 if dark else 0
+        for k, v in self.action_icon.items():
+            cur_icon = v[icon_id]
+            k.setIcon(cur_icon)
+        # codebox lexer
+        if dark:
+            self.set_dark_lexer()
+        else:
+            self.set_light_lexer()
+        # codebox line number margin
+        f, b = (QColor('white'), QColor("#2E3336")) if dark else (QColor('black'), QColor("#e0e0e0"))
+        self.codebox.setMarginsForegroundColor(f)
+        self.codebox.setMarginsBackgroundColor(b)
+    
+    def set_lexer_attr(self, attr, color, paper):
+        self.lexer.setColor(color, attr)
+        self.lexer.setPaper(paper, attr)
+    
+    def set_dark_lexer(self):
+        paper = QColor("#3c3c3c")
+        # bg
+        self.lexer.setDefaultPaper(paper)
+        # style
+        self.codebox.setCaretForegroundColor(QColor('gray')) # cursor
+        self.codebox.setCaretLineVisible(True)
+        self.codebox.setCaretLineBackgroundColor(QColor("#1f1f2e"))
+        self.set_lexer_attr(QsciLexerPython.Default, QColor('white'), paper)
+        self.set_lexer_attr(QsciLexerPython.Comment, QColor('lightblue'), paper)
+        self.set_lexer_attr(QsciLexerPython.Number, QColor('white'), paper)
+        self.set_lexer_attr(QsciLexerPython.DoubleQuotedString, QColor('yellow'), paper)
+        self.set_lexer_attr(QsciLexerPython.SingleQuotedString, QColor('yellow'), paper)
+        self.set_lexer_attr(QsciLexerPython.Keyword, QColor('lightgreen'), paper)
+        self.set_lexer_attr(QsciLexerPython.TripleSingleQuotedString, QColor('yellow'), paper)
+        self.set_lexer_attr(QsciLexerPython.TripleDoubleQuotedString, QColor('lightblue'), paper)
+        self.set_lexer_attr(QsciLexerPython.ClassName, QColor('cyan'), paper)
+        self.set_lexer_attr(QsciLexerPython.FunctionMethodName, QColor('cyan'), paper)
+        self.set_lexer_attr(QsciLexerPython.Operator, QColor('white'), paper)
+        self.set_lexer_attr(QsciLexerPython.Identifier, QColor('white'), paper)
+        self.set_lexer_attr(QsciLexerPython.CommentBlock, QColor('lightblue'), paper)
+        self.set_lexer_attr(QsciLexerPython.UnclosedString, QColor('#666'), paper)
+        self.set_lexer_attr(QsciLexerPython.HighlightedIdentifier, QColor('#ffffff'), paper)
+        self.set_lexer_attr(QsciLexerPython.Decorator, QColor('#cccccc'), paper)
+       
+    def set_light_lexer(self):
+        paper = QColor("white")
+        # bg
+        self.lexer.setDefaultPaper(paper)
+        # style
+        self.codebox.setCaretForegroundColor(QColor('black')) # cursor
+        self.codebox.setCaretLineVisible(True)
+        self.codebox.setCaretLineBackgroundColor(QColor("#e0ccff"))
+        self.set_lexer_attr(QsciLexerPython.Default, QColor('black'), paper)
+        self.set_lexer_attr(QsciLexerPython.Comment, QColor('gray'), paper)
+        self.set_lexer_attr(QsciLexerPython.Number, QColor('black'), paper)
+        self.set_lexer_attr(QsciLexerPython.DoubleQuotedString, QColor('#800000'), paper)
+        self.set_lexer_attr(QsciLexerPython.SingleQuotedString, QColor('#800000'), paper)
+        self.set_lexer_attr(QsciLexerPython.Keyword, QColor('#008080'), paper)
+        self.set_lexer_attr(QsciLexerPython.TripleSingleQuotedString, QColor('#060'), paper)
+        self.set_lexer_attr(QsciLexerPython.TripleDoubleQuotedString, QColor('#060'), paper)
+        self.set_lexer_attr(QsciLexerPython.ClassName, QColor('#0000a0'), paper)
+        self.set_lexer_attr(QsciLexerPython.FunctionMethodName, QColor('#0000a0'), paper)
+        self.set_lexer_attr(QsciLexerPython.Operator, QColor('black'), paper)
+        self.set_lexer_attr(QsciLexerPython.Identifier, QColor('black'), paper)
+        self.set_lexer_attr(QsciLexerPython.CommentBlock, QColor('gray'), paper)
+        self.set_lexer_attr(QsciLexerPython.UnclosedString, QColor('#FFDDDD'), paper)
+        self.set_lexer_attr(QsciLexerPython.HighlightedIdentifier, QColor('#0000a0'), paper)
+        self.set_lexer_attr(QsciLexerPython.Decorator, QColor('#cc6600'), paper)    
+
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "Ida Pro Python Script Editor", None))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar", None))
@@ -961,10 +1119,6 @@ if __name__ == '__main__':
     import sys
 
     Wizard = QtWidgets.QWizard()
-    #Wizard = QtWidgets.QWizard()
-    #app = QtWidgets.QApplication.instance() # enable for usage outside
-    #if not app:  # enable for usage outside
-    #    app = QtWidgets.QApplication([])  # enable for usage outside
     MainWindow = MyWindow()
     ui = Ui_MainWindow()
     messageformForm = QtWidgets.QWidget()
@@ -973,7 +1127,6 @@ if __name__ == '__main__':
     ui3.setupUi1(messageformForm)
     MainWindow.resize(1000, 600)
     MainWindow.show()
-   # app.exec_()
 
 
 
