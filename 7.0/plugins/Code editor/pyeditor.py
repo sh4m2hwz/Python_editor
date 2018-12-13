@@ -750,7 +750,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.default_font = QFont()
         self.default_font.setFamily('Consolas')
         self.default_font.setFixedPitch(True)
-        self.default_font.setPointSize(14)
+        self.default_font.setPointSize(12)
         
         self.skrift = self.make_font(self.get_config('font')) if self.get_config('font') else self.default_font
         self.codebox.setFont(self.skrift)
