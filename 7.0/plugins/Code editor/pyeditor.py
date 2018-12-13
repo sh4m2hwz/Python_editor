@@ -19,7 +19,7 @@ print " ###################################################\n" \
     " #         CircleFolding:      Ctrl+C              #\n" \
     " #         PlainFolding:       Ctrl+P              #\n" \
     " #         HEX-ray Home:       Ctrl+W              #\n" \
-    " #         Ida Pro Python SDK  Ctrl+I              #\n" \
+    " #         IDA Pro Python SDK  Ctrl+I              #\n" \
     " #         IDAPROPythonGit:    Ctrl+G              #\n" \
     " #         Author:             Ctrl+B              #\n" \
     " #         Enable Reg:         Alt+E               #\n" \
@@ -354,19 +354,19 @@ class Ui_Wizard(QtWidgets.QWizard):
 
     def retranslateUi2(self, Wizard):
         _translate = QtCore.QCoreApplication.translate
-        Wizard.setWindowTitle(_translate("Wizard", "           Ida Pro Plugin Wizard"))
+        Wizard.setWindowTitle(_translate("Wizard", "           IDA Pro Plugin Wizard"))
         self.textBrowser_2.setHtml(_translate("Wizard", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Calibri Light\'; font-size:20pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Welcome to the plugin wizard.</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Please follow the steps in the wizard, to tranform your code, to a full Ida Pro plugin.</p></body></html>"))
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Please follow the steps in the wizard, to tranform your code, to a full IDA Pro plugin.</p></body></html>"))
         self.textBrowser_4.setHtml(_translate("Wizard", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Calibri Light\'; font-size:8.14286pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:20pt;\">First we create the plugin loader</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:20pt;\">Then we change the higlightet text in the template, and then save the plugin loader in Ida Pro Plugins folder.</span></p></body></html>"))
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:20pt;\">Then we change the higlightet text in the template, and then save the plugin loader in IDA Pro Plugins folder.</span></p></body></html>"))
         self.temppushButtonopen.setText(_translate("Wizard", "Open"))
         self.temppushButtonsave.setText(_translate("Wizard", "Save"))
         self.textBrowser_5.setHtml(_translate("Wizard", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
@@ -610,8 +610,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         #irc
         cur_icon = QtGui.QIcon(":/ico3/settings.png")
         inv_icon = self.invert_icon(cur_icon)
-        self.toolBar.Action12 = QtWidgets.QAction(cur_icon,"Open Ida Pro Python SDK",self.toolBar)
-        self.toolBar.Action12.setStatusTip("Ida Pro Python SDK")
+        self.toolBar.Action12 = QtWidgets.QAction(cur_icon,"Open IDA Pro Python SDK",self.toolBar)
+        self.toolBar.Action12.setStatusTip("IDA Pro Python SDK")
         self.toolBar.Action12.setShortcut("Ctrl+I")
         self.toolBar.Action12.triggered.connect(self.sdkopen)
         self.action_icon[self.toolBar.Action12] = (cur_icon, inv_icon)
@@ -930,7 +930,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.set_lexer_attr(QsciLexerPython.Decorator, QColor('#cc6600'), paper)    
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(_translate("MainWindow", "Ida Pro Python Script Editor", None))
+        MainWindow.setWindowTitle(_translate("MainWindow", "IDA Pro Python Script Editor", None))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar", None))
 
     def plugin_make(self):
@@ -1136,7 +1136,7 @@ class MyWindow(QtWidgets.QMainWindow):
 #              Follow me on twitter               #
 #                  @zadow28                       #
 ###################################################
-#              Ida pro  python Editor             #
+#              IDA pro  python Editor             #
 ###################################################
 '''
             event.accept()
