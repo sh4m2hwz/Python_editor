@@ -948,11 +948,43 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
     def odder(self):
         self.codebox.zoomOut()
 
+    def ask_save(self, msg):
+        # need to save ?
+        if not self.filename and not self.codebox.text(): # no filename + no text = ain't save shit
+            return 0
+        
+        if self.filename:
+            with open(self.filename, 'rb') as f:
+                if f.read() == self.codebox.text(): # don't need to save
+                    return 0
+        
+        buttonReply = QMessageBox.question(self, 'Save the none-save work ?', msg, QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel, QMessageBox.Cancel)
+        if buttonReply == QMessageBox.Yes:
+            return 1
+        elif buttonReply == QMessageBox.No:
+            return 0
+        else: # cancel or x 
+            return 2    
+      
     def newfile(self):
+        resp = self.ask_save("Save before open a new file ?")
+        if resp == 1: # yes save file
+            self.save_file()
+        elif resp == 2: # cancel or xrange
+            return
+            
         self.codebox.clear()
+        self.filename = ""
 
     def open(self):
+        resp = self.ask_save("Save before open an existed file ?")
+        if resp == 1: # yes save file
+            self.save_file()
+        elif resp == 2: # cancel or xrange
+            return
+                
         self.path = QtCore.QFileInfo(self.filename).path()
+        old_filename = self.filename
         # Get filename and show only .writer files
         (self.filename, _) = \
             QtWidgets.QFileDialog.getOpenFileName(self.vindu,
@@ -962,20 +994,26 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         if self.filename:
             with open(self.filename, 'r') as self.file:
                 self.codebox.setText(self.file.read())
+        else:
+            self.filename = old_filename
         os.chdir(str(self.path))
 
     def save_as_file(self):
         self.path = QtCore.QFileInfo(self.filename).path()
+        old_filename = self.filename
         (self.filename, _) = \
             QtWidgets.QFileDialog.getSaveFileName(self.vindu, 'Save as'
                 , self.path, 'Python Files (*.py *.pyc *.pyw)')
         if self.filename:
             self.save_file()
+        else:
+            self.filename = old_filename
         os.chdir(str(self.path))
 
     def save_file(self):
         if not self.filename:
             self.save_as_file()
+            return
         
         textout = self.codebox.text()
         file = QtCore.QFile(self.filename)
@@ -1085,18 +1123,12 @@ class MyWindow(QtWidgets.QMainWindow):
     '''
     we have to ask user for quiting so we can change back to root dir
     '''
-
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Exit',
-            "Are you sure to quit?", QMessageBox.Yes |
+            "Are you sure to quit ? ( Be sure you save the work before you exit )", QMessageBox.Yes |
             QMessageBox.No, QMessageBox.No)
 
         if reply == QMessageBox.Yes:
-#            print dn
-            os.chdir(dn)
- #           print dn
-            #os.chdir('../..')
-  #          print dn
             print '''
 ###################################################
 #              Author Storm Shadow                #
@@ -1111,7 +1143,6 @@ class MyWindow(QtWidgets.QMainWindow):
             os.chdir(dn)
         else:
             event.ignore()
-            os.chdir(dn)
 
 from PyQt5 import Qsci
 
