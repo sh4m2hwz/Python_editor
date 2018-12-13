@@ -883,10 +883,16 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         paper = QColor("#3c3c3c")
         # bg
         self.lexer.setDefaultPaper(paper)
-        # style
-        self.codebox.setCaretForegroundColor(QColor('gray')) # cursor
+        # cursor style
+        self.codebox.setCaretForegroundColor(QColor('gray'))
         self.codebox.setCaretLineVisible(True)
         self.codebox.setCaretLineBackgroundColor(QColor("#1f1f2e"))
+        # brace matched style
+        self.codebox.setMatchedBraceForegroundColor(QColor("orange"))
+        self.codebox.setMatchedBraceBackgroundColor(paper)
+        self.codebox.setUnmatchedBraceForegroundColor(QColor("red"))
+        self.codebox.setUnmatchedBraceBackgroundColor(paper)
+        # code style
         self.set_lexer_attr(QsciLexerPython.Default, QColor('white'), paper)
         self.set_lexer_attr(QsciLexerPython.Comment, QColor('lightblue'), paper)
         self.set_lexer_attr(QsciLexerPython.Number, QColor('white'), paper)
@@ -908,10 +914,16 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         paper = QColor("white")
         # bg
         self.lexer.setDefaultPaper(paper)
-        # style
-        self.codebox.setCaretForegroundColor(QColor('black')) # cursor
+        # cursor style
+        self.codebox.setCaretForegroundColor(QColor('black'))
         self.codebox.setCaretLineVisible(True)
         self.codebox.setCaretLineBackgroundColor(QColor("#e0ccff"))
+        # brace matched style
+        self.codebox.setMatchedBraceForegroundColor(QColor("orange"))
+        self.codebox.setMatchedBraceBackgroundColor(QColor("#F7F8E0"))
+        self.codebox.setUnmatchedBraceForegroundColor(QColor("red"))
+        self.codebox.setUnmatchedBraceBackgroundColor(QColor("#F7F8E0"))
+        # code style
         self.set_lexer_attr(QsciLexerPython.Default, QColor('black'), paper)
         self.set_lexer_attr(QsciLexerPython.Comment, QColor('gray'), paper)
         self.set_lexer_attr(QsciLexerPython.Number, QColor('black'), paper)
