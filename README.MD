@@ -19,7 +19,7 @@ Dark theme :
         + Makes you able to save your changes directly to the existing file
         + Save: `Ctrl + S`
         + Save as: `Ctrl + Shift + S`
-    - Ask if you want to save before you open a new/existing file
+    - Ask if you want to save before you quit or open a new/existing file
 
 * Enhance error messages
     - Now able to display the line number of where the error exist
