@@ -982,7 +982,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         resp = self.ask_save("Save before open a new file ?")
         if resp == 1: # yes save file
             self.save_file()
-        elif resp == 2: # cancel or xrange
+        elif resp == 2: # cancel or x
             return
             
         self.codebox.clear()
@@ -992,7 +992,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         resp = self.ask_save("Save before open an existed file ?")
         if resp == 1: # yes save file
             self.save_file()
-        elif resp == 2: # cancel or xrange
+        elif resp == 2: # cancel or x
             return
                 
         self.path = QtCore.QFileInfo(self.filename).path()
@@ -1010,6 +1010,17 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             self.filename = old_filename
         os.chdir(str(self.path))
 
+    def close(self, event):
+        resp = self.ask_save("Save before exit ?")
+        if resp == 1: # yes save file
+            self.save_file()
+        elif resp == 2: # cancel or x
+            event.ignore()
+            return
+        
+        event.accept()
+        os.chdir(dn)
+        
     def save_as_file(self):
         self.path = QtCore.QFileInfo(self.filename).path()
         old_filename = self.filename
@@ -1130,45 +1141,20 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         else:
             self.codebox.markerAdd(nline, self.ARROW_MARKER_NUM)
 
-
-class MyWindow(QtWidgets.QMainWindow):
-    '''
-    we have to ask user for quiting so we can change back to root dir
-    '''
-    def closeEvent(self, event):
-        reply = QMessageBox.question(self, 'Exit',
-            "Are you sure to quit ?\n( Be sure to save your work before you exit )", QMessageBox.Yes |
-            QMessageBox.No, QMessageBox.No)
-
-        if reply == QMessageBox.Yes:
-            print '''
-###################################################
-#              Author Storm Shadow                #
-#                                                 #
-#              Follow me on twitter               #
-#                  @zadow28                       #
-###################################################
-#              IDA pro  python Editor             #
-###################################################
-'''
-            event.accept()
-            os.chdir(dn)
-        else:
-            event.ignore()
-
 from PyQt5 import Qsci
 
 if __name__ == '__main__':
     import sys
 
     Wizard = QtWidgets.QWizard()
-    MainWindow = MyWindow()
+    MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     messageformForm = QtWidgets.QWidget()
     ui2 = Ui_Wizard()
     ui3 = Ui_messageformForm()
     ui3.setupUi1(messageformForm)
     MainWindow.resize(1000, 600)
+    MainWindow.closeEvent = ui.close
     MainWindow.show()
 
 
