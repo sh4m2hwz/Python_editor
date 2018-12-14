@@ -1,3 +1,45 @@
+## Enhancement from bruce30262
+
+I've enhanced some features for the one in IDA Pro 7.0 ( only tested in Windows ), including:
+
+* Adding a dark theme ( using [QDarkStyleSheet](https://github.com/ColinDuquesnoy/QDarkStyleSheet) )
+    - Now we have light/dark theme for the editor. Press the `Switch theme` button to switch the theme
+
+Light theme :
+
+![light](https://user-images.githubusercontent.com/4478350/49988090-8544b680-ffb0-11e8-9488-5a5df6ff9528.png)
+
+Dark theme :
+
+![dark](https://user-images.githubusercontent.com/4478350/49988091-870e7a00-ffb0-11e8-980c-7c77a7a11e45.png)
+
+
+* Improve save file feature
+    - Now able to Save/Save as a new/existing file 
+        + Makes you able to save your changes directly to the existing file
+        + Save: `Ctrl + S`
+        + Save as: `Ctrl + Shift + S`
+    - Ask if you want to save before you open a new/existing file
+
+* Enhance error messages
+    - Now able to display the line number of where the error exist
+    
+* Save the custom settings
+    - Now able to save the following custom settings:
+        - font setting
+        - theme setting
+        
+* Update the IDAPython APIs to the latest version
+
+
+Download the latest release version from [here](https://github.com/bruce30262/Python_editor/releases)  
+Check the release note for how to setup the editor ( there's also a README.txt in the release package )
+
+
+( The following content were derived from the original README.md )
+***
+
+
 **Ida Pro python Editor**
 [![](https://img.shields.io/badge/Twitter--blue.svg?maxAge=2592000)](https://twitter.com/zadow28) ![Python version](https://img.shields.io/badge/python-2.7-brightgreen.svg?maxAge=2592000) ![Python version](https://img.shields.io/badge/Ida-plugin-red.svg?maxAge=2592000) ![PyQ5t](https://img.shields.io/badge/PyQt5-5.6-orange.svg) ![PyQ5t](https://img.shields.io/badge/PyQt4-4.8-yellow.svg)
 
