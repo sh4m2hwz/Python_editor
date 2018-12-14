@@ -5,13 +5,14 @@ print "\n" #getting the box fit
 print " ###################################################\n" \
     " #              Author Storm Shadow                # \n" \
     " #                   Hotkeys                       # \n" \
+    " #         Open editor:        Ctrl+H              #\n" \
     " #         NewFile:            Ctrl+N              #\n" \
     " #         OpenFile:           Ctrl+O              #\n" \
     " #         SaveFile:           Ctrl+S              #\n" \
     " #         Save As New File:   Ctrl+Shift+ S       #\n" \
     " #         RunScript:          Ctrl+E              #\n" \
     " #         Undo:               Ctrl+Z              #\n" \
-    " #         Redo:               Ctrl+Y              #\n" \
+    " #         Redo:               Ctrl+Shift+Z        #\n" \
     " #         SelectALL:          Ctrl+A              #\n" \
     " #         Paste:              Ctrl+V              #\n" \
     " #         Font:               Ctrl+F              #\n" \
@@ -562,7 +563,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         #action 6 undo
         cur_icon = QtGui.QIcon(":/ico/undo.png")
         inv_icon = self.invert_icon(cur_icon)
-        self.toolBar.Action6 =  QtWidgets.QAction(cur_icon,"Redo",self.toolBar)
+        self.toolBar.Action6 =  QtWidgets.QAction(cur_icon,"Undo",self.toolBar)
         self.toolBar.Action6.setStatusTip("Undo.")
         self.toolBar.Action6.setShortcut("Ctrl+Z")
         self.toolBar.Action6.triggered.connect(self.codebox.undo)
@@ -572,7 +573,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         inv_icon = self.invert_icon(cur_icon)
         self.toolBar.Action7 = QtWidgets.QAction(cur_icon,"Redo",self.toolBar)
         self.toolBar.Action7.setStatusTip("Redo.")
-        self.toolBar.Action7.setShortcut("Ctrl+Y")
+        self.toolBar.Action7.setShortcut("Ctrl+Shift+Z")
         self.toolBar.Action7.triggered.connect(self.codebox.redo)
         self.action_icon[self.toolBar.Action7] = (cur_icon, inv_icon)
         #action8 rerset Folding
@@ -599,14 +600,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.toolBar.Action10.setShortcut("Ctrl+P")
         self.toolBar.Action10.triggered.connect(self.plainfold)
         self.action_icon[self.toolBar.Action10] = (cur_icon, inv_icon)
-        #web baby
-        cur_icon = QtGui.QIcon(":/ico/web.png")
-        inv_icon = self.invert_icon(cur_icon)
-        self.toolBar.Action11 = QtWidgets.QAction(cur_icon,"Hex-rays Homepage",self.toolBar)
-        self.toolBar.Action11.setStatusTip("Home of Hex-rays")
-        self.toolBar.Action11.setShortcut("Ctrl+W")
-        self.toolBar.Action11.triggered.connect(self.webopen)
-        self.action_icon[self.toolBar.Action11] = (cur_icon, inv_icon)
         #irc
         cur_icon = QtGui.QIcon(":/ico3/settings.png")
         inv_icon = self.invert_icon(cur_icon)
@@ -634,16 +627,16 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         #toggle off code regonision
         cur_icon = QtGui.QIcon(":/ico2/pythonminus.png")
         inv_icon = self.invert_icon(cur_icon)
-        self.toolBar.Action16 = QtWidgets.QAction(cur_icon,"Disable Code recognition",self.toolBar)
-        self.toolBar.Action16.setStatusTip("Disable Code recognition")
+        self.toolBar.Action16 = QtWidgets.QAction(cur_icon,"Disable Code autocomplete",self.toolBar)
+        self.toolBar.Action16.setStatusTip("Disable Code autocomplete")
         self.toolBar.Action16.setShortcut("Alt+D")
         self.toolBar.Action16.triggered.connect(self.Diablecode)
         self.action_icon[self.toolBar.Action16] = (cur_icon, inv_icon)
         #toogle on
         cur_icon = QtGui.QIcon(":/ico2/pypluss.png")
         inv_icon = self.invert_icon(cur_icon)
-        self.toolBar.Action17 = QtWidgets.QAction(cur_icon,"Enable Code recognition",self.toolBar)
-        self.toolBar.Action17.setStatusTip("Enable Code recognition")
+        self.toolBar.Action17 = QtWidgets.QAction(cur_icon,"Enable Code autocomplete",self.toolBar)
+        self.toolBar.Action17.setStatusTip("Enable Code autocomplete")
         self.toolBar.Action17.setShortcut("Alt+E")
         self.toolBar.Action17.triggered.connect(self.Reiablecode)
         self.action_icon[self.toolBar.Action17] = (cur_icon, inv_icon)
@@ -722,8 +715,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.toolBar.addAction(self.toolBar.Action10)
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.toolBar.Action21)
-        self.toolBar.addSeparator()
-        self.toolBar.addAction(self.toolBar.Action11)
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.toolBar.Action12)
         self.toolBar.addSeparator()
@@ -1106,17 +1097,13 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
     def plainfold(self):
         self.codebox.setFolding(QsciScintilla.PlainFoldStyle)
 
-    def webopen(self):
-        import webbrowser
-        webbrowser.open('https://www.hex-rays.com/')
-
     def sdkopen(self):
         import webbrowser
         webbrowser.open('https://www.hex-rays.com/products/ida/support/idapython_docs/')
 
     def gitopen(self):
         import webbrowser
-        webbrowser.open('https://github.com/idapython/src/tree/build-1.7.2')
+        webbrowser.open('https://github.com/idapython/src')
 
     def Author(self):
         import webbrowser
