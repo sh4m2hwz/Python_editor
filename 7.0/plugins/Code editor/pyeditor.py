@@ -1,6 +1,4 @@
 # Created by Storm Shadow www.techbliss.org
-
-# Created by Storm Shadow www.techbliss.org
 print "\n" #getting the box fit
 print " ###################################################\n" \
     " #              Author Storm Shadow                # \n" \
@@ -48,11 +46,10 @@ except NameError:
 
 sys.path.insert(0, dn)
 sys.path.insert(0, os.getcwd()+r'\\icons')
-
 sys.path.insert(0, os.getcwd()+r'\\template')
 
 import PyQt5
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets, Qsci
 from PyQt5.Qsci import QsciScintilla, QsciLexerPython
 from PyQt5.QtGui import QFont, QFontMetrics, QColor
 from PyQt5.QtWidgets import QDialog, QMessageBox, QWizard, QWizardPage
@@ -73,7 +70,6 @@ elif sys.platform == "darwin":
 
 if plugin_path:
     QCoreApplication.addLibraryPath(plugin_path)
-
 
 if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
     PyQt5.QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)

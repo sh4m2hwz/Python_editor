@@ -2,14 +2,11 @@
 import os
 import ida_idaapi, ida_kernwin
 import idc
-from idc import *
-from idaapi import *
+import idaapi
 import idautils
 import sys
 sys.path.insert(0 , idaapi.idadir("plugins\\Code editor\\icons"))
 import ico
-from ico import *
-
 
 PLUGIN_VERSION = "1.5"
 IDAVERISONS    = "IDA PRO 7.0+"
@@ -35,7 +32,7 @@ class MyEditorHandler(idaapi.action_handler_t):
     def activate(self, ctx):
         g = globals()
         idahome = idaapi.idadir("plugins\\Code editor")
-        IDAPython_ExecScript(idahome + "\\pyeditor.py", g)
+        idaapi.IDAPython_ExecScript(idahome + "\\pyeditor.py", g)
 
     def update(self, ctx):
         return idaapi.AST_ENABLE_ALWAYS
@@ -83,7 +80,7 @@ class ripeye(idaapi.plugin_t):
             form = idaapi.get_current_tform()
             pass
 
-        return PLUGIN_KEEP
+        return idaapi.PLUGIN_KEEP
 
 
     def _install_plugin(self):
