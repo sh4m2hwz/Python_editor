@@ -1,6 +1,6 @@
 ## Enhancement from bruce30262
 
-I've enhanced some features for the one in IDA Pro 7.0 ( only tested in Windows ), including:
+I've enhanced some features for the one in IDA Pro 7.x ( so far it works fine in IDA 7.0 ~ 7.2, only tested in Windows though ), including:
 
 * Adding a dark theme ( using [QDarkStyleSheet](https://github.com/ColinDuquesnoy/QDarkStyleSheet) )
     - Now we have light/dark theme for the editor. Press the `Switch theme` button to switch the theme
