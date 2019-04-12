@@ -5,9 +5,10 @@ import idc
 import idaapi
 import idautils
 import sys
-import ico
 
-sys.path.insert(0 , idaapi.idadir("plugins\\Code editor\\icons"))
+sys.path.insert(0 , idaapi.idadir("plugins\\Code editor\\icons")) # so later we can import ico
+
+import ico
 
 PLUGIN_VERSION = "1.5"
 IDAVERISONS    = "IDA PRO 7.0+"
