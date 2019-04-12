@@ -5,8 +5,9 @@ import idc
 import idaapi
 import idautils
 import sys
-sys.path.insert(0 , idaapi.idadir("plugins\\Code editor\\icons"))
 import ico
+
+sys.path.insert(0 , idaapi.idadir("plugins\\Code editor\\icons"))
 
 PLUGIN_VERSION = "1.5"
 IDAVERISONS    = "IDA PRO 7.0+"
@@ -17,8 +18,6 @@ TWITTER        = "Twitter @zadow28"
 def banner():
     banner_options = (PLUGIN_VERSION, AUTHORS, DATE, TWITTER, IDAVERISONS)
     banner_titles = "Python Editor v%s - (c) %s - %s - %s - %s" % banner_options
-
-# print plugin banner
     print("---[" + banner_titles + "]---\n")
 
 banner()
@@ -70,7 +69,6 @@ class ripeye(idaapi.plugin_t):
         """
         This is called by IDA when it is loading the plugin.
         """
-        #self._icon_id_file = idaapi.BADADDR
         # attempt plugin initialization
         try:
             self._install_plugin()

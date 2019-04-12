@@ -33,6 +33,7 @@ print " ###################################################\n" \
 import os
 import sys
 import pickle
+import qdarkstyle
 
 try:
     dn = idaapi.idadir("plugins\\Code editor")
@@ -112,7 +113,6 @@ try:
     def _translate(context, text, disambig):
         return QtWidgets.QApplication.translate(context, text,
                 disambig, _encoding)
-
 except AttributeError:
     def _translate(context, text, disambig):
         return QtWidgets.QApplication.translate(context, text, disambig)
@@ -145,8 +145,7 @@ class Ui_messageformForm(QtWidgets.QWidget):
     def retranslateUi(self, messageformForm):
         _translate = QtCore.QCoreApplication.translate
         messageformForm.setWindowTitle(_translate("messageformForm", "Soon to be fixed"))
-        self.label.setText(_translate("messageformForm", "Soon to be fixed"
-))
+        self.label.setText(_translate("messageformForm", "Soon to be fixed"))
 
 class Ui_Wizard(QtWidgets.QWizard):
     def __init__(self, parent=None):
@@ -261,7 +260,7 @@ class Ui_Wizard(QtWidgets.QWizard):
         self.TemptextEdit.setAutoCompletionThreshold(6)
         self.TemptextEdit.setAutoCompletionThreshold(8)
         self.TemptextEdit.setAutoCompletionSource(Qsci.QsciScintilla.AcsAPIs)
-#        self.TemptextEdit.setDefaultFont(self.skrift)
+
         self.TemptextEdit.setLexer(self.lexer)
         self.TemptextEdit.SendScintilla(QsciScintilla.SCI_STYLESETFONT, 1, 'Consolas')
         #python style script
@@ -269,7 +268,7 @@ class Ui_Wizard(QtWidgets.QWizard):
         self.script_textEdit.setAutoCompletionThreshold(6)
         self.script_textEdit.setAutoCompletionThreshold(8)
         self.script_textEdit.setAutoCompletionSource(Qsci.QsciScintilla.AcsAPIs)
-#        self.script_textEdit.setDefaultFont(self.skrift)
+
         self.script_textEdit.setLexer(self.lexer)
         self.script_textEdit.SendScintilla(QsciScintilla.SCI_STYLESETFONT, 1, 'Consolas')
 
@@ -392,7 +391,6 @@ class Ui_Wizard(QtWidgets.QWizard):
         messageformForm.show()
 
     def opentemp(self):
-        print "hello"
         self.path = QtCore.QFileInfo(self.filename).path()
 
         # Get filename and show only .writer files
@@ -427,7 +425,6 @@ class Ui_Wizard(QtWidgets.QWizard):
         os.chdir(str(self.path))
 
     def openscript(self):
-        print "hello"
         self.path = QtCore.QFileInfo(self.filename).path()
 
         # Get filename and show only .writer files
@@ -460,11 +457,7 @@ class Ui_Wizard(QtWidgets.QWizard):
             QtWidgets.QMessageBox.information(self.wizardPage_3,
                     'Unable to open file', file.errorString())
         os.chdir(str(self.path))
-
-from PyQt5 import Qsci
-import qdarkstyle
-import sys
-
+      
 class Ui_MainWindow(QtWidgets.QMainWindow):
     ARROW_MARKER_NUM = 8
 
@@ -1124,21 +1117,17 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         else:
             self.codebox.markerAdd(nline, self.ARROW_MARKER_NUM)
 
-from PyQt5 import Qsci
-
-if __name__ == '__main__':
-    import sys
-
-    Wizard = QtWidgets.QWizard()
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    messageformForm = QtWidgets.QWidget()
-    ui2 = Ui_Wizard()
-    ui3 = Ui_messageformForm()
-    ui3.setupUi1(messageformForm)
-    MainWindow.resize(1000, 600)
-    MainWindow.closeEvent = ui.close
-    MainWindow.show()
+# main function            
+Wizard = QtWidgets.QWizard()
+MainWindow = QtWidgets.QMainWindow()
+ui = Ui_MainWindow()
+messageformForm = QtWidgets.QWidget()
+ui2 = Ui_Wizard()
+ui3 = Ui_messageformForm()
+ui3.setupUi1(messageformForm)
+MainWindow.resize(1000, 600)
+MainWindow.closeEvent = ui.close
+MainWindow.show()
 
 
 
