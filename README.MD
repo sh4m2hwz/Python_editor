@@ -33,9 +33,10 @@ Dark theme :
 
 
 Download the latest release version from [here](https://github.com/bruce30262/Python_editor/releases)  
-Check the release note for how to setup the editor ( there's also a README.txt in the release package )
+Check the release note for how to setup the editor ( there's also a README.txt in the release package )  
+**2019/05/29 update** : Now support installation from [idapkg.com](https://idapkg.com/p/PythonEditor) !
 
-
+***
 ( The following content were derived from the original README.md )
 ***
 
