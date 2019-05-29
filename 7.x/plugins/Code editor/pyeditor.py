@@ -1,7 +1,7 @@
 # Created by Storm Shadow www.techbliss.org
 print "\n" #getting the box fit
 print " ###################################################\n" \
-    " #              Author Storm Shadow                # \n" \
+    " #         Author Storm Shadow, bruce30262         # \n" \
     " #                   Hotkeys                       # \n" \
     " #         Open editor:        Ctrl+H              #\n" \
     " #         NewFile:            Ctrl+N              #\n" \
@@ -36,18 +36,15 @@ import pickle
 import qdarkstyle
 
 try:
-    dn = idaapi.idadir("plugins\\Code editor")
+    dn = os.path.dirname(os.path.abspath(__file__))
 except NameError:
     dn = os.getcwd()
 
-try:
-    TemplateFile = idaapi.idadir("plugins\\Code editor\\template\\Plugin_temp")
-except NameError:
-    TemplateFile = os.getcwd()+r'\\template\\Plugin_temp'
+TemplateFile = os.path.join(dn, "template", "Plugin_temp")
 
 sys.path.insert(0, dn)
-sys.path.insert(0, os.getcwd()+r'\\icons')
-sys.path.insert(0, os.getcwd()+r'\\template')
+sys.path.insert(0, os.path.join(os.getcwd(), 'icons'))
+sys.path.insert(0, os.path.join(os.getcwd(), 'template'))
 
 import PyQt5
 from PyQt5 import QtCore, QtGui, QtWidgets, Qsci
@@ -488,8 +485,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         MainWindow.setCentralWidget(self.vindu)
         
         # cutsom config
-        self.config_dir = os.path.expanduser("~") + "\\.python_editor"
-        self.config_filename = self.config_dir + "\\config.dat"
+        self.config_dir = os.path.join(os.path.expanduser("~"), ".python_editor")
+        self.config_filename = os.path.join(self.config_dir, "config.dat")
         self.config = self.read_config() if self.read_config() else dict()
                 
         # toolbar
@@ -534,7 +531,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.toolBar.Action3.triggered.connect(self.save_file)
         self.action_icon[self.toolBar.Action3] = (cur_icon, inv_icon)
         # action 3_1 save as file
-        cur_icon = QtGui.QIcon(dn+"\\icons\\save_as.png")
+        cur_icon = QtGui.QIcon(os.path.join(dn, "icons", "save_as.png"))
         inv_icon = self.invert_icon(cur_icon)
         self.toolBar.Action3_1 = QtWidgets.QAction(cur_icon,"Save As",self.toolBar)
         self.toolBar.Action3_1.setStatusTip("Save As New File.")
@@ -670,7 +667,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.toolBar.Action22.triggered.connect(self.plugin_make)
         self.action_icon[self.toolBar.Action22] = (cur_icon, inv_icon)
         # invert theme
-        cur_icon = QtGui.QIcon(dn+"\\icons\\invert.png")
+        cur_icon = QtGui.QIcon(os.path.join(dn, "icons", "invert.png"))
         inv_icon = self.invert_icon(cur_icon)
         self.toolBar.Action23 = QtWidgets.QAction(cur_icon,"Switch theme",self.toolBar)
         self.toolBar.Action23.setStatusTip("Switch Light/Dark theme")
@@ -740,10 +737,10 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.lexer.setFont(self.skrift)
         #api test not working
         api = Qsci.QsciAPIs(self.lexer)
-        API_FILE = dn+'\\python.api'
-        API_FILE2 = dn+'\\idc.api'
-        API_FILE3 = dn+'\\idaapi.api'
-        API_FILE4 = dn+'\\idautils.api'
+        API_FILE =  os.path.join(dn, 'python.api')
+        API_FILE2 = os.path.join(dn, 'idc.api')
+        API_FILE3 = os.path.join(dn, 'idaapi.api')
+        API_FILE4 = os.path.join(dn, 'idautils.api')
         api.load(API_FILE)
         api.load(API_FILE2)
         api.load(API_FILE3)
@@ -799,7 +796,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             import errno
             try:
                 os.makedirs(path)
-            except OSError as exc:  # Python >2.5
+            except OSError as exc:
                 if exc.errno == errno.EEXIST and os.path.isdir(path):
                     pass
                 else:
@@ -929,7 +926,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         Wizard.show()
 
     def sendgrapped(self):
-        print("hello")
         helloclass = Ui_Wizard()
         self.bsout = self.codebox.text()
         helloclass.script_textEdit.setText(self.bsout)
@@ -1128,8 +1124,4 @@ ui3.setupUi1(messageformForm)
 MainWindow.resize(1000, 600)
 MainWindow.closeEvent = ui.close
 MainWindow.show()
-
-
-
-
 

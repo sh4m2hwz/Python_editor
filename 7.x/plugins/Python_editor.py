@@ -6,15 +6,17 @@ import idaapi
 import idautils
 import sys
 
-sys.path.insert(0 , idaapi.idadir("plugins\\Code editor\\icons")) # so later we can import ico
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+sys.path.insert(0 , os.path.join(ROOT_DIR, "Code editor", "icons")) # so later we can import ico
 
 import ico
 
-PLUGIN_VERSION = "1.5"
+PLUGIN_VERSION = "2.2"
 IDAVERISONS    = "IDA PRO 7.0+"
-AUTHORS        = "Storm Shadow"
-DATE           = "2017"
-TWITTER        = "Twitter @zadow28"
+AUTHORS        = "Storm Shadow, bruce30262"
+DATE           = "2019"
+TWITTER        = "Twitter @zadow28 @bruce30262"
 
 def banner():
     banner_options = (PLUGIN_VERSION, AUTHORS, DATE, TWITTER, IDAVERISONS)
@@ -31,8 +33,8 @@ class MyEditorHandler(idaapi.action_handler_t):
     # Run editor when invoked.
     def activate(self, ctx):
         g = globals()
-        idahome = idaapi.idadir("plugins\\Code editor")
-        idaapi.IDAPython_ExecScript(idahome + "\\pyeditor.py", g)
+        idahome = os.path.join(ROOT_DIR, "Code editor")
+        idaapi.IDAPython_ExecScript(os.path.join(idahome, "pyeditor.py"), g)
 
     def update(self, ctx):
         return idaapi.AST_ENABLE_ALWAYS
