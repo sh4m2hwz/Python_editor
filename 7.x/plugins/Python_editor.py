@@ -12,7 +12,7 @@ sys.path.insert(0 , os.path.join(ROOT_DIR, "Code editor", "icons")) # so later w
 
 import ico
 
-PLUGIN_VERSION = "2.2"
+PLUGIN_VERSION = "2.3"
 IDAVERISONS    = "IDA PRO 7.0+"
 AUTHORS        = "Storm Shadow, bruce30262"
 DATE           = "2019"

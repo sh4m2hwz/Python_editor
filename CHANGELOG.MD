@@ -1,3 +1,7 @@
+## 2.3
+* Fix some bug.  
+* Remove Python Editor 6.X since I'm not going to maintain those version.  
+
 ## 2.2
 * Support installing from [idapkg](https://github.com/Jinmo/idapkg)
 

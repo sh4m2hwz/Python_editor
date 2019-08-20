@@ -35,6 +35,9 @@ import sys
 import pickle
 import qdarkstyle
 
+from idc import *
+from idaapi import *
+
 try:
     dn = os.path.dirname(os.path.abspath(__file__))
 except NameError:
