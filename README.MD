@@ -1,6 +1,9 @@
 ## Enhancement from bruce30262
 
-I've enhanced some features for the one in IDA Pro 7.x ( so far it works fine in IDA 7.0 ~ 7.2, only tested in Windows though ), including:
+* **2019/05/29 update** : Now support installation from [idapkg.com](https://idapkg.com/p/PythonEditor) !  
+* **2020/10/24 update** : For editor to work in v7.4+ ( python3 API ), please refer to [this issue](https://github.com/bruce30262/Python_editor/issues/2).
+
+I've enhanced some features for the one in IDA Pro v7.0 ~ v7.3 ( so far it works fine in IDA v7.0 ~ v7.2, and I think it'll work fine in v7.3. Only tested in Windows though ), including:
 
 * Adding a dark theme ( using [QDarkStyleSheet](https://github.com/ColinDuquesnoy/QDarkStyleSheet) )
     - Now we have light/dark theme for the editor. Press the `Switch theme` button to switch the theme
@@ -34,7 +37,6 @@ Dark theme :
 
 Download the latest release version from [here](https://github.com/bruce30262/Python_editor/releases)  
 Check the release note for how to setup the editor.  
-**2019/05/29 update** : Now support installation from [idapkg.com](https://idapkg.com/p/PythonEditor) !
 
 ***
 ( The following content were derived from the original README.md )
