@@ -1,3 +1,7 @@
+## 3.0  
+* Add support for Python 3 ( IDA 7.4+ )  
+* Update API ( Python 3 )
+
 ## 2.3
 * Fix some bug.  
 * Remove Python Editor 6.X since I'm not going to maintain those version.  
